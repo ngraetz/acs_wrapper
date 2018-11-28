@@ -11,16 +11,16 @@ library(viridis)
 Sys.getenv("CENSUS_API_KEY")
 d <- getBlockGroupData(state = 'WA', county_code = '033')
 
-ggplot(d[[1]]) +
-  geom_sf(aes(fill = Percent.of.population.below.poverty.line)) +
-  scale_fill_viridis("Poverty") +
-  ggtitle("Poverty") +
-  theme_bw()
+# ggplot(d[[1]]) +
+#   geom_sf(aes(fill = Percent.of.population.below.poverty.line)) +
+#   scale_fill_viridis("Poverty") +
+#   ggtitle("Poverty") +
+#   theme_bw()
 
 ## 02. Aggregate block groups.
 d_agg <- aggregateBlockGroups(bg_data = d, cv.thresh = 0.30, coh.thresh = 0.50)
-max(d_agg$geo$region)
-plot(d_agg$geo["region"])
+# max(d_agg$geo$region)
+# plot(d_agg$geo["region"])
 
 ## 03. Generate weights
 ##  - createFeather(): One-time operation to import unadulterated .csv PUMS microdata
