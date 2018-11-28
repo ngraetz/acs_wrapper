@@ -9,7 +9,7 @@ library(viridis)
 
 ## 01. Get ACS data.
 Sys.getenv("CENSUS_API_KEY")
-d <- getBlockGroupData(state = 'WA', county_code = '033')
+d <- getBlockGroupData(state = 'WA', county_code = '033', overwrite = T)
 
 # ggplot(d[[1]]) +
 #   geom_sf(aes(fill = Percent.of.population.below.poverty.line)) +
@@ -18,6 +18,7 @@ d <- getBlockGroupData(state = 'WA', county_code = '033')
 #   theme_bw()
 
 ## 02. Aggregate block groups.
+d <- readRDS("C:/Users/Nick/Documents/microACS/bg_data_WA.rds")
 d_agg <- aggregateBlockGroups(bg_data = d, cv.thresh = 0.30, coh.thresh = 0.50)
 # max(d_agg$geo$region)
 # plot(d_agg$geo["region"])
@@ -38,7 +39,11 @@ pums <- processPUMS(state = 'WA',
 ## Problem with class of "hid" - needs to be numeric or character (mine were integer64).
 pums[[1]]$hid <- as.numeric(pums[[1]]$hid)
 pums[[2]]$hid <- as.numeric(pums[[2]]$hid)
+
+
+pums <- readRDS("C:/Users/Nick/Documents/microACS/pums_microdata_WAWA.rds")
 result <- generateRegionWeights(aggregation_object = d_agg, processed_pums = pums)
+saveRDS(results, 'C:/Users/Nick/Documents/microACS/weights_WA.rds')
 # Examine how the weighted sample margins compare to the actual margins
 View(result$`1`$margins)
 
